@@ -1,6 +1,6 @@
 # ECS Cluster
 resource "aws_ecs_cluster" "strapi_cluster" {
-  name = var.cluster_name
+  name = "strapi-cluster-mayank"
 }
 
 # ECS Task Definition
