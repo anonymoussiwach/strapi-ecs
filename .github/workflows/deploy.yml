@@ -32,7 +32,7 @@ jobs:
       
       - name: Force ECS service update
         run: |
-        aws ecs update-service \
-          --cluster strapi-cluster-mayank \
-          --service strapi-service \
-          --force-new-deployment
+          aws ecs update-service \
+            --cluster strapi-cluster-mayank \
+            --service strapi-service \
+            --force-new-deployment
