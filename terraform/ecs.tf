@@ -1,6 +1,6 @@
 # ECS Cluster
 resource "aws_ecs_cluster" "strapi_cluster" {
-  name = "strapi-cluster-mayank"
+  name = var.cluster_name
 }
 
 # ECS Task Definition
@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "strapi_task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "512"
   memory                   = "1024"
-  execution_role_arn = "arn:aws:iam::145065858967:role/ec2_ecr_full_access_role"
+  execution_role_arn       = var.ecs_execution_role_arn
 
   container_definitions = jsonencode([{
     name      = "strapi"
@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "strapi_task" {
 
 # ECS Service
 resource "aws_ecs_service" "strapi_service" {
-  name            = "strapi-service"
+  name            = var.service_name
   cluster         = aws_ecs_cluster.strapi_cluster.id
   task_definition = aws_ecs_task_definition.strapi_task.arn
   desired_count   = 1
