@@ -42,7 +42,5 @@ resource "aws_ecs_service" "strapi_service" {
     container_port   = 1337
   }
 
-  execution_role_arn = var.ecs_execution_role_arn
-
   depends_on = [aws_lb_listener.strapi_listener]
 }
