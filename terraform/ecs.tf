@@ -31,11 +31,10 @@ resource "aws_ecs_service" "strapi_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets         = var.subnet_ids
-    security_groups = [var.security_group_id]
-    assign_public_ip = true
-  }
-
+  subnets         = var.subnet_ids
+  security_groups = [aws_security_group.strapi_sg.id]  # <- use the SG created by Terraform
+  assign_public_ip = true
+}
   load_balancer {
     target_group_arn = aws_lb_target_group.strapi_tg.arn
     container_name   = "strapi"

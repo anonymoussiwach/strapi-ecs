@@ -1,19 +1,13 @@
 resource "aws_security_group" "strapi_sg" {
-  name        = "strapi-sg-mayank"
+  name        = "strapi-sg-mayank"  # you can append random suffix if needed
   description = "Allow HTTP access to Strapi"
   vpc_id      = data.aws_vpc.default.id
 
-  dynamic "ingress" {
-    for_each = [
-      { from = 80, to = 80 },
-      { from = 1337, to = 1337 }
-    ]
-    content {
-      from_port   = ingress.value.from
-      to_port     = ingress.value.to
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
