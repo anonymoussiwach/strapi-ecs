@@ -1,19 +1,32 @@
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_ecs_cluster" "strapi_cluster" {
+  name = "strapi-cluster"
+}
+
 resource "aws_ecs_task_definition" "strapi_task" {
   family                   = "strapi-task"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "512"
   memory                   = "1024"
-  network_mode             = "awsvpc"
 
-  container_definitions = jsonencode([{
-    name      = "strapi"
-    image     = var.docker_image  # pass existing ECR image as variable
-    essential = true
-    portMappings = [{
-      containerPort = 1337
-      hostPort      = 1337
-    }]
-  }])
+  network_mode = "awsvpc"
+
+  container_definitions = jsonencode([
+    {
+      name      = "strapi"
+      image     = var.docker_image
+      essential = true
+      portMappings = [
+        {
+          containerPort = 1337
+          hostPort      = 1337
+        }
+      ]
+    }
+  ])
 }
 
 resource "aws_ecs_service" "strapi_service" {
@@ -21,12 +34,13 @@ resource "aws_ecs_service" "strapi_service" {
   cluster         = aws_ecs_cluster.strapi_cluster.id
   task_definition = aws_ecs_task_definition.strapi_task.arn
   launch_type     = "FARGATE"
+  desired_count   = 1
 
   network_configuration {
-    subnets         = [aws_subnet.strapi_subnet_1.id, aws_subnet.strapi_subnet_2.id]
-    security_groups = [aws_security_group.strapi_sg.id]
+    subnets         = var.subnet_ids
+    security_groups = [var.security_group_id]
     assign_public_ip = true
   }
 
-  desired_count = 1
+  depends_on = [aws_ecs_task_definition.strapi_task]
 }
