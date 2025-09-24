@@ -1,9 +1,3 @@
-variable "docker_image" {}
-variable "security_group_id" {}
-variable "vpc_id" {}
-variable "subnet_ids" { type = list(string) }
-variable "ecs_execution_role_arn" {}
-
 resource "aws_ecs_cluster" "strapi_cluster" {
   name = "strapi-cluster"
 }
