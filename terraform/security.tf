@@ -1,21 +1,22 @@
-# ECS Execution Role
-resource "aws_iam_role" "strapi_ecs_execution_role" {
-  name = "strapi-ecs-execution"
+resource "aws_ecs_task_definition" "strapi_task" {
+  family                   = "strapi-task"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = "512"
+  memory                   = "1024"
+  execution_role_arn       = "arn:aws:iam::145065858967:role/ec2_ecr_full_access_role"  # existing role
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Effect = "Allow",
-      Principal = { Service = "ecs-tasks.amazonaws.com" },
-      Action   = "sts:AssumeRole"
+  container_definitions = jsonencode([{
+    name      = "strapi"
+    image     = var.docker_image
+    cpu       = 512
+    memory    = 1024
+    essential = true
+    portMappings = [{
+      containerPort = 1337
+      hostPort      = 1337
     }]
-  })
-}
-
-# Attach managed policy for ECS to pull images from ECR
-resource "aws_iam_role_policy_attachment" "ecs_execution_policy" {
-  role       = aws_iam_role.strapi_ecs_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  }])
 }
 resource "aws_security_group" "strapi_sg" {
   name        = "strapi-sg-mayank"  # you can append random suffix if needed
