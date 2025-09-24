@@ -16,7 +16,7 @@ resource "aws_lb_target_group" "strapi_tg" {
   name        = "strapi-tg-mayank"
   port        = 1337
   protocol    = "HTTP"
-  vpc_id      = var.vpc_id
+  vpc_id      = "vpc-01b35def73b166fdc"
   target_type = "ip"
 
   health_check {
