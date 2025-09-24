@@ -1,15 +1,3 @@
-# ecs.tf
-
-variable "docker_image" {}
-variable "vpc_id" {}
-variable "subnet_ids" {
-  type = list(string)
-}
-variable "security_group_id" {}
-variable "ecs_cluster_name" {
-  default = "strapi-cluster"
-}
-
 # IAM Role for ECS Task Execution
 resource "aws_iam_role" "ecs_execution_role" {
   name = "strapi-ecs-execution-role"
@@ -79,16 +67,4 @@ resource "aws_ecs_service" "strapi_service" {
   depends_on = [
     aws_iam_role_policy_attachment.ecs_execution_role_policy
   ]
-}
-
-output "ecs_cluster_id" {
-  value = aws_ecs_cluster.strapi_cluster.id
-}
-
-output "ecs_service_name" {
-  value = aws_ecs_service.strapi_service.name
-}
-
-output "security_group_id" {
-  value = var.security_group_id
 }
