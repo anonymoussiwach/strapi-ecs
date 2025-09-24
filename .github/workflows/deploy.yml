@@ -28,5 +28,4 @@ jobs:
 
       - name: Terraform Apply
         working-directory: ./terraform
-        run: terraform apply -auto-approve \
-          -var="docker_image=145065858967.dkr.ecr.ap-south-1.amazonaws.com/strapi-app:latest"
+        run: terraform apply -auto-approve -var="docker_image=145065858967.dkr.ecr.ap-south-1.amazonaws.com/strapi-app:latest"
