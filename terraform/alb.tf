@@ -4,7 +4,11 @@ resource "aws_lb" "strapi_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.strapi_sg.id]
-  subnets            = var.subnet_ids
+  subnets = [
+    "subnet-0393e7c5b435bd5b6",  # ap-south-1a
+    "subnet-03e1b3fe2ad999849",  # ap-south-1b
+    "subnet-05e9035d969355719"   # ap-south-1c
+  ]
 }
 
 # Target Group
