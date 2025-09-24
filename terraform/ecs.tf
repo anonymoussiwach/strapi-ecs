@@ -1,13 +1,13 @@
-provider "aws" {
-  region = "ap-south-1"
-}
+variable "docker_image" {}
+variable "security_group_id" {}
+variable "vpc_id" {}
+variable "subnet_ids" { type = list(string) }
+variable "ecs_execution_role_arn" {}
 
-# Use existing ECS cluster or create if not exists
 resource "aws_ecs_cluster" "strapi_cluster" {
-  name = var.cluster_name
+  name = "strapi-cluster"
 }
 
-# ECS Task Definition
 resource "aws_ecs_task_definition" "strapi_task" {
   family                   = "strapi-task"
   network_mode             = "awsvpc"
@@ -16,33 +16,37 @@ resource "aws_ecs_task_definition" "strapi_task" {
   memory                   = "1024"
   execution_role_arn       = var.ecs_execution_role_arn
 
-  container_definitions = jsonencode([
-    {
-      name      = "strapi"
-      image     = var.docker_image
-      essential = true
-      portMappings = [
-        {
-          containerPort = 1337
-          hostPort      = 1337
-        }
-      ]
-    }
-  ])
+  container_definitions = jsonencode([{
+    name      = "strapi"
+    image     = var.docker_image
+    cpu       = 512
+    memory    = 1024
+    essential = true
+    portMappings = [{
+      containerPort = 1337
+      hostPort      = 1337
+    }]
+  }])
 }
 
-# ECS Service
 resource "aws_ecs_service" "strapi_service" {
-  name            = var.service_name
+  name            = "strapi-service"
   cluster         = aws_ecs_cluster.strapi_cluster.id
   task_definition = aws_ecs_task_definition.strapi_task.arn
   launch_type     = "FARGATE"
+  desired_count   = 1
 
   network_configuration {
     subnets          = var.subnet_ids
     security_groups  = [var.security_group_id]
     assign_public_ip = true
   }
+}
 
-  desired_count = 1
+output "ecs_cluster_id" {
+  value = aws_ecs_cluster.strapi_cluster.id
+}
+
+output "ecs_service_name" {
+  value = aws_ecs_service.strapi_service.name
 }
