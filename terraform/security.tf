@@ -1,7 +1,7 @@
 resource "aws_security_group" "strapi_sg" {
   name        = "strapi-sg"
-  description = "Security group for Strapi ECS service"
-  vpc_id      = var.vpc_id
+  description = "Allow HTTP access to Strapi"
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     from_port   = 80
