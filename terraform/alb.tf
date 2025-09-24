@@ -1,6 +1,6 @@
 # Create Application Load Balancer
 resource "aws_lb" "strapi_alb" {
-  name               = "strapi-alb"
+  name               = "strapi-alb-mayank"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.strapi_sg.id]
