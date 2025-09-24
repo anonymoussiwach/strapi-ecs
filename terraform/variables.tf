@@ -1,30 +1,36 @@
 variable "docker_image" {
-  description = "ECR image to use for Strapi"
+  description = "Docker image URI in ECR"
+  type        = string
+}
+
+variable "security_group_id" {
+  description = "Existing security group ID for ECS service"
   type        = string
 }
 
 variable "vpc_id" {
-  description = "VPC ID for ECS service"
+  description = "Existing VPC ID"
   type        = string
 }
 
 variable "subnet_ids" {
-  description = "Subnets for ECS Fargate service"
+  description = "List of existing subnet IDs for ECS service"
   type        = list(string)
 }
 
-variable "security_group_id" {
-  description = "Security group ID for ECS service"
+variable "ecs_execution_role_arn" {
+  description = "Existing ECS task execution role ARN"
   type        = string
 }
 
-variable "key_pair" {
-  description = "EC2 Key Pair (if needed for any tasks)"
-  type        = string
-}
-
-variable "ecs_cluster_name" {
-  description = "Name of ECS Cluster"
+variable "cluster_name" {
+  description = "Name of ECS cluster"
   type        = string
   default     = "strapi-cluster"
+}
+
+variable "service_name" {
+  description = "Name of ECS service"
+  type        = string
+  default     = "strapi-service"
 }
