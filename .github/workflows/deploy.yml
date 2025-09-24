@@ -26,16 +26,16 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # 4. Build, Tag, and Push Docker image
       - name: Build, Tag, and Push image
         run: |
-          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/strapi-repo:latest
+          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ github.event.repository.name }}-repo:latest
           docker build -t $IMAGE_URI ./strapi
           docker push $IMAGE_URI
 
-      # 5. Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
 
       # 6. Terraform Init
       - name: Terraform Init
@@ -46,8 +46,3 @@ jobs:
       - name: Terraform Apply
         working-directory: ./terraform
         run: terraform apply -auto-approve
-
-      # 8. Output the Strapi URL
-      - name: Show Strapi URL
-        working-directory: ./terraform
-        run: terraform output strapi_url
