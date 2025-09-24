@@ -1,6 +1,6 @@
 # ECS Execution Role
 resource "aws_iam_role" "strapi_ecs_execution_role" {
-  name = "strapi-ecs-execution-role"
+  name = "strapi-ecs-execution"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
