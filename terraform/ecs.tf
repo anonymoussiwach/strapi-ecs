@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "strapi_cluster" {
-  name = "strapi-cluster"
+  name = "strapi-cluster-mayank"
 }
 
 resource "aws_ecs_task_definition" "strapi_task" {
