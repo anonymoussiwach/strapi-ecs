@@ -29,10 +29,3 @@ jobs:
       - name: Terraform Apply
         working-directory: ./terraform
         run: terraform apply -auto-approve -var="docker_image=145065858967.dkr.ecr.ap-south-1.amazonaws.com/strapi-app:latest" -var="vpc_id=vpc-098cc44dc4ec933d7" -var='subnet_ids=["subnet-08f7b9dfa8bd5c307"]' -var="ecs_execution_role_arn=arn:aws:iam::145065858967:role/strapi-ecs-execution-role"
-      
-      - name: Force ECS service update
-        run: |
-          aws ecs update-service \
-            --cluster strapi-cluster-mayank \
-            --service strapi-service \
-            --force-new-deployment
