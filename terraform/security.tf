@@ -3,13 +3,18 @@ resource "aws_security_group" "strapi_sg" {
   description = "Allow HTTP access to Strapi"
   vpc_id      = data.aws_vpc.default.id
 
-  ingress {
-  from_port   = 1337
-  to_port     = 1337
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
+  dynamic "ingress" {
+    for_each = [
+      { from = 80, to = 80 },
+      { from = 1337, to = 1337 }
+    ]
+    content {
+      from_port   = ingress.value.from
+      to_port     = ingress.value.to
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
   }
-}
 
   egress {
     from_port   = 0
