@@ -9,3 +9,7 @@ output "ecs_service_name" {
 output "security_group_id" {
   value = var.security_group_id
 }
+
+output "strapi_url" {
+  value = aws_lb.strapi_alb.dns_name
+}
