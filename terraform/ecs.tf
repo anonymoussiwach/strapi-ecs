@@ -10,7 +10,6 @@ resource "aws_ecs_task_definition" "strapi_task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "512"
   memory                   = "1024"
-  execution_role_arn       = var.ecs_execution_role_arn
   execution_role_arn = aws_iam_role.ec2_ecr_full_access_role.arn
   task_role_arn      = aws_iam_role.ec2_ecr_full_access_role.arn
 
