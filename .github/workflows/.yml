@@ -1,0 +1,2 @@
+- name: Create Nginx config folder
+  run: mkdir -p /tmp/nginx

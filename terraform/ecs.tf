@@ -23,12 +23,6 @@ resource "aws_ecs_task_definition" "strapi_task" {
       containerPort = 1337
       hostPort      = 1337
     }]
-    environment = [
-    {
-      name  = "VITE_ALLOWED_HOSTS"
-      value = var.vite_allowed_hosts
-    }
-  ]
   }])
 }
 
