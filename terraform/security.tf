@@ -1,7 +1,7 @@
-# Security Group
-resource "aws_security_group" "strapi_sg" {
-  name        = "strapi-sg-mayank"
-  description = "Allow HTTP access to Strapi"
+# ALB Security Group
+resource "aws_security_group" "alb_sg" {
+  name        = "strapi-alb-sg"
+  description = "Allow HTTP access from the internet"
   vpc_id      = "vpc-01b35def73b166fdc"
 
   ingress {

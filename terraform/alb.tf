@@ -3,7 +3,7 @@ resource "aws_lb" "strapi_alb" {
   name               = "strapi-alb-mayank"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.strapi_sg.id]
+  security_groups    = [aws_security_group.alb_sg.id]
   subnets = [
     "subnet-0393e7c5b435bd5b6",  # ap-south-1a
     "subnet-03e1b3fe2ad999849",  # ap-south-1b
