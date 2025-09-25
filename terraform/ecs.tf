@@ -36,7 +36,7 @@ resource "aws_ecs_service" "strapi_service" {
 
   network_configuration {
     subnets = var.subnet_ids
-    security_groups = [aws_security_group.ecs_sg.id]
+    security_groups = [aws_security_group.strapi_sg.id]
     assign_public_ip = true
   }
 
