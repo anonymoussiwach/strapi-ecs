@@ -1,8 +1,3 @@
-variable "vite_allowed_hosts" {
-  type = string
-  description = "Allowed host for Vite/Strapi frontend"
-}
-
 variable "docker_image" {
   description = "Docker image URI in ECR"
   type        = string
