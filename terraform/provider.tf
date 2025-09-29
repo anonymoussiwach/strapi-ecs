@@ -9,7 +9,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "mayank-terraform-bucket"   # change this
+    bucket         = "mayank-strapi"   # change this
     key            = "strapi/terraform.tfstate"
     region         = "ap-south-1"
     encrypt        = true
