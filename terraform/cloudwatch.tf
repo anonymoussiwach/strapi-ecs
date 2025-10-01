@@ -1,5 +1,3 @@
-# CloudWatch for Strapi ECS
-
 # Log Group for ECS Task Logs
 resource "aws_cloudwatch_log_group" "strapi_logs" {
   name              = "/ecs/strapi/mayank"
@@ -17,7 +15,6 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cpu_high" {
   statistic           = "Average"
   threshold           = 80
   alarm_description   = "ECS Service CPU > 80%"
-  alarm_actions       = [aws_sns_topic.strapi_alerts.arn]
   dimensions = {
     ClusterName = aws_ecs_cluster.strapi_cluster.name
     ServiceName = aws_ecs_service.strapi_service.name
@@ -35,36 +32,58 @@ resource "aws_cloudwatch_metric_alarm" "ecs_memory_high" {
   statistic           = "Average"
   threshold           = 80
   alarm_description   = "ECS Service Memory > 80%"
-  alarm_actions       = [aws_sns_topic.strapi_alerts.arn]
   dimensions = {
     ClusterName = aws_ecs_cluster.strapi_cluster.name
     ServiceName = aws_ecs_service.strapi_service.name
   }
 }
 
-# Dashboard for ECS Service Monitoring
-resource "aws_cloudwatch_dashboard" "strapi_dashboard" {
-  dashboard_name = "Strapi-Dashboard"
+# ECS Task Count Alarm
+resource "aws_cloudwatch_metric_alarm" "ecs_task_count_low" {
+  alarm_name          = "strapi-task-count-low"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = 2
+  metric_name         = "RunningTaskCount"
+  namespace           = "AWS/ECS"
+  period              = 60
+  statistic           = "Minimum"
+  threshold           = 1
+  alarm_description   = "ECS Service running tasks below 1"
+  dimensions = {
+    ClusterName = aws_ecs_cluster.strapi_cluster.name
+    ServiceName = aws_ecs_service.strapi_service.name
+  }
+}
 
-  dashboard_body = jsonencode({
-    widgets = [
-      {
-        type = "metric"
-        x    = 0
-        y    = 0
-        width  = 12
-        height = 6
-        properties = {
-          metrics = [
-            [ "AWS/ECS", "CPUUtilization", "ClusterName", aws_ecs_cluster.strapi_cluster.name, "ServiceName", aws_ecs_service.strapi_service.name ],
-            [ ".", "MemoryUtilization", ".", ".", ".", "." ]
-          ]
-          period = 60
-          stat   = "Average"
-          region = "ap-south-1"
-          title  = "ECS CPU & Memory Utilization"
-        }
-      }
-    ]
-  })
+# Optional Network Alarms
+resource "aws_cloudwatch_metric_alarm" "ecs_network_in" {
+  alarm_name          = "strapi-network-in-high"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 2
+  metric_name         = "NetworkBytesIn"
+  namespace           = "AWS/ECS"
+  period              = 60
+  statistic           = "Average"
+  threshold           = 10000000
+  alarm_description   = "High incoming network traffic"
+  dimensions = {
+    ClusterName = aws_ecs_cluster.strapi_cluster.name
+    ServiceName = aws_ecs_service.strapi_service.name
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "ecs_network_out" {
+  alarm_name          = "strapi-network-out-high"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 2
+  metric_name         = "NetworkBytesOut"
+  namespace           = "AWS/ECS"
+  period              = 60
+  statistic           = "Average"
+  threshold           = 10000000
+  alarm_description   = "High outgoing network traffic"
+  dimensions = {
+    ClusterName = aws_ecs_cluster.strapi_cluster.name
+    ServiceName = aws_ecs_service.strapi_service.name
+  }
 }
