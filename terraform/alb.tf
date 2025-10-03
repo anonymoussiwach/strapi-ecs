@@ -11,9 +11,9 @@ resource "aws_lb" "strapi_alb" {
   ]
 }
 
-# Target Group
-resource "aws_lb_target_group" "strapi_tg" {
-  name        = "strapi-tg-mayank"
+# Blue Target Group
+resource "aws_lb_target_group" "strapi_tg_blue" {
+  name        = "strapi-tg-blue-mayank"
   port        = 1337
   protocol    = "HTTP"
   vpc_id      = "vpc-01b35def73b166fdc"
@@ -30,7 +30,26 @@ resource "aws_lb_target_group" "strapi_tg" {
   }
 }
 
-# Listener
+# Green Target Group
+resource "aws_lb_target_group" "strapi_tg_green" {
+  name        = "strapi-tg-green-mayank"
+  port        = 1337
+  protocol    = "HTTP"
+  vpc_id      = "vpc-01b35def73b166fdc"
+  target_type = "ip"
+
+  health_check {
+    path                = "/"
+    protocol            = "HTTP"
+    matcher             = "200-399"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}
+
+# Listener (initially forwards to Blue)
 resource "aws_lb_listener" "strapi_listener" {
   load_balancer_arn = aws_lb.strapi_alb.arn
   port              = 80
@@ -38,6 +57,6 @@ resource "aws_lb_listener" "strapi_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.strapi_tg.arn
+    target_group_arn = aws_lb_target_group.strapi_tg_blue.arn
   }
 }
