@@ -52,8 +52,6 @@ resource "aws_ecs_service" "strapi_service" {
     type = "CODE_DEPLOY"
   }
 
-  service_role_arn = var.codedeploy_role_arn
-
   network_configuration {
     subnets          = var.subnet_ids
     security_groups  = [aws_security_group.strapi_sg.id]
