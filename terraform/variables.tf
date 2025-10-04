@@ -29,3 +29,8 @@ variable "service_name" {
   type        = string
   default     = "strapi-service"
 }
+
+variable "codedeploy_role_arn" {
+  description = "Existing CodeDeploy IAM role ARN"
+  type        = string
+}
