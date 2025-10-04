@@ -52,7 +52,7 @@ resource "aws_ecs_service" "strapi_service" {
     type = "CODE_DEPLOY"
   }
 
-  iam_role = var.codedeploy_role_arn
+  service_role_arn = var.codedeploy_role_arn
 
   network_configuration {
     subnets          = var.subnet_ids
