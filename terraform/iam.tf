@@ -1,5 +1,5 @@
 # IAM Role for CodeDeploy ECS
-resource "aws_iam_role" "codedeploy_role" {
+data "aws_iam_role" "codedeploy_role" {
   name = "codedeploy-role-mayank"
 
   assume_role_policy = jsonencode({
