@@ -1,3 +1,8 @@
+resource "aws_codedeploy_app" "strapi_app" {
+  name             = "strapi-app-mayank"
+  compute_platform = "ECS"
+}
+
 resource "aws_codedeploy_deployment_group" "strapi_deploy_group" {
   app_name              = aws_codedeploy_app.strapi_app.name
   deployment_group_name = "strapi-deploy-group-mayank"
