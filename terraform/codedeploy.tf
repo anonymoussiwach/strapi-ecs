@@ -14,6 +14,11 @@ resource "aws_codedeploy_deployment_group" "strapi_deploy_group" {
     enabled = true
     events  = ["DEPLOYMENT_FAILURE"]
   }
+  
+  deployment_style {
+    deployment_type   = "BLUE_GREEN"
+    deployment_option = "WITH_TRAFFIC_CONTROL"
+  }
 
   blue_green_deployment_config {
     terminate_blue_instances_on_deployment_success {
