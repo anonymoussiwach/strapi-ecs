@@ -6,7 +6,7 @@ resource "aws_lb" "strapi_alb" {
   security_groups    = [aws_security_group.alb_sg.id]
   subnets = [
     "subnet-065f226753ec5fd8f",
-    "subnet-05f48301e29cf5f85"
+    "subnet-06d7c618847e312a3"
   ]
 }
 

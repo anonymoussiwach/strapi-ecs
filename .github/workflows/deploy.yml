@@ -28,7 +28,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: ./terraform
-        run: terraform apply -auto-approve -var="docker_image=145065858967.dkr.ecr.ap-south-1.amazonaws.com/adarshm/strapi6" -var="vpc_id=vpc-0afe9dc99028a85ee" -var='subnet_ids=["subnet-065f226753ec5fd8f","subnet-05f48301e29cf5f85"]' -var="ecs_execution_role_arn=arn:aws:iam::145065858967:role/ecsTaskExecutionRole"
+        run: terraform apply -auto-approve -var="docker_image=145065858967.dkr.ecr.ap-south-1.amazonaws.com/adarshm/strapi6" -var="vpc_id=vpc-0afe9dc99028a85ee" -var='subnet_ids=["subnet-065f226753ec5fd8f","subnet-06d7c618847e312a3"]' -var="ecs_execution_role_arn=arn:aws:iam::145065858967:role/ecsTaskExecutionRole"
       
       # ✅ Register new ECS Task Definition with latest image
       - name: Register ECS Task Definition
