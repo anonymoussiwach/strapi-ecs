@@ -40,7 +40,7 @@ jobs:
 
       - name: Prepare AppSpec for CodeDeploy
         run: |
-          sed "s|<TASK_DEF_ARN>|$TASK_DEF_ARN|g" .github/workflows/appspec.yaml > appspec-final.yaml
+          sed "s|<TASK_DEF_ARN>|$TASK_DEF_ARN|g" .github/workflows/appspec.yml > appspec-final.yml
 
       - name: Create CodeDeploy deployment
         run: |
