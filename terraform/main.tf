@@ -66,23 +66,3 @@ resource "aws_ecs_service" "strapi_service" {
 
   depends_on = [aws_lb_listener.strapi_listener]
 }
-
-resource "aws_security_group" "strapi_sg" {
-  name        = "strapi-sg-mayank"
-  description = "Allow traffic from ALB to ECS tasks"
-  vpc_id      = "vpc-0afe9dc99028a85ee"
-
-  ingress {
-    from_port       = 1337
-    to_port         = 1337
-    protocol        = "tcp"
-    security_groups = [aws_security_group.alb_sg.id]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
