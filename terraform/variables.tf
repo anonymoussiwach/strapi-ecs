@@ -33,4 +33,5 @@ variable "service_name" {
 variable "codedeploy_role_arn" {
   description = "Existing CodeDeploy IAM role ARN"
   type        = string
+  default     = "arn:aws:iam::145065858967:role/codedeploy-role-mayank"
 }
