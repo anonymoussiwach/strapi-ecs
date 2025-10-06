@@ -28,13 +28,13 @@ jobs:
 
       - name: Terraform Apply
         working-directory: ./terraform
-        run: terraform apply -auto-approve -var="docker_image=145065858967.dkr.ecr.ap-south-1.amazonaws.com/adarshm/strapi6" -var="vpc_id=vpc-0afe9dc99028a85ee" -var='subnet_ids=["subnet-065f226753ec5fd8f","subnet-06d7c618847e312a3"]' -var="ecs_execution_role_arn=arn:aws:iam::145065858967:role/ecsTaskExecutionRole"
+        run: terraform apply -auto-approve -var="145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek" -var="vpc_id=vpc-0afe9dc99028a85ee" -var='subnet_ids=["subnet-065f226753ec5fd8f","subnet-06d7c618847e312a3"]' -var="ecs_execution_role_arn=arn:aws:iam::145065858967:role/ecsTaskExecutionRole"
       
       # ✅ Register new ECS Task Definition with latest image
       - name: Register ECS Task Definition
         id: taskdef
         run: |
-          sed "s|<IMAGE>|145065858967.dkr.ecr.ap-south-1.amazonaws.com/adarshm/strapi6:latest|g" ecs-task-def.json > ecs-task-def-final.json
+          sed "s|<IMAGE>|145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek-git:latest|g" ecs-task-def.json > ecs-task-def-final.json
           aws ecs register-task-definition --cli-input-json file://ecs-task-def-final.json > taskdef.json
           echo "TASK_DEF_ARN=$(jq -r '.taskDefinition.taskDefinitionArn' taskdef.json)" >> $GITHUB_ENV
 
