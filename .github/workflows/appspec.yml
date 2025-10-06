@@ -3,23 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "strapi-task"        # Name of your ECS task definition
+        TaskDefinition: "<TASK_DEF_ARN>"
         LoadBalancerInfo:
-          ContainerName: "strapi"           # Name of the container in the task definition
-          ContainerPort: 1337               # Container port exposed
-
-Hooks:
-  BeforeInstall:
-    - location: scripts/before_install.sh   # Optional, script to run before deployment
-      timeout: 180
-      runas: root
-
-  AfterInstall:
-    - location: scripts/after_install.sh    # Optional, script to run after deployment
-      timeout: 180
-      runas: root
-
-  ApplicationStart:
-    - location: scripts/start_app.sh        # Optional, start app if needed
-      timeout: 180
-      runas: root
+          ContainerName: "strapi"
+          ContainerPort: 1337
