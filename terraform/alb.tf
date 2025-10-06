@@ -5,9 +5,7 @@ resource "aws_lb" "strapi_alb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets = [
-    "subnet-0393e7c5b435bd5b6",  # ap-south-1a
-    "subnet-03e1b3fe2ad999849",  # ap-south-1b
-    "subnet-05e9035d969355719"   # ap-south-1c
+    "subnet-065f226753ec5fd8f"
   ]
 }
 
@@ -58,26 +56,5 @@ resource "aws_lb_listener" "strapi_listener" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.strapi_tg_blue.arn
-  }
-}
-
-# Security Group for ALB
-resource "aws_security_group" "alb_sg" {
-  name        = "alb-sg-mayank"
-  description = "Allow HTTP inbound traffic"
-  vpc_id      = "vpc-01b35def73b166fdc"
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
   }
 }
