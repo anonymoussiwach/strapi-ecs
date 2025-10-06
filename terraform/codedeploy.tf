@@ -1,8 +1,3 @@
-resource "aws_codedeploy_app" "strapi_app" {
-  name             = "strapi-app-mayank"
-  compute_platform = "ECS"
-}
-
 resource "aws_codedeploy_deployment_group" "strapi_deploy_group" {
   app_name              = aws_codedeploy_app.strapi_app.name
   deployment_group_name = "strapi-deploy-group-mayank"
@@ -14,15 +9,21 @@ resource "aws_codedeploy_deployment_group" "strapi_deploy_group" {
     enabled = true
     events  = ["DEPLOYMENT_FAILURE"]
   }
-  
+
   deployment_style {
     deployment_type   = "BLUE_GREEN"
     deployment_option = "WITH_TRAFFIC_CONTROL"
   }
 
   blue_green_deployment_config {
+    # Add deployment ready option
+    deployment_ready_option {
+      action_on_timeout = "CONTINUE_DEPLOYMENT"  # or "STOP_DEPLOYMENT"
+      wait_time_in_minutes = 0                    # adjust if you want a wait
+    }
+
     terminate_blue_instances_on_deployment_success {
-      action = "TERMINATE"
+      action                        = "TERMINATE"
       termination_wait_time_in_minutes = 5
     }
   }
