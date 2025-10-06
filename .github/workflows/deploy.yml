@@ -34,7 +34,7 @@ jobs:
       - name: Register ECS Task Definition
         id: taskdef
         run: |
-          sed "s|<IMAGE>|145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek-git:latest|g" ecs-task-def.json > ecs-task-def-final.json
+          sed "s|<IMAGE>|145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek|g" ecs-task-def.json > ecs-task-def-final.json
           aws ecs register-task-definition --cli-input-json file://ecs-task-def-final.json > taskdef.json
           echo "TASK_DEF_ARN=$(jq -r '.taskDefinition.taskDefinitionArn' taskdef.json)" >> $GITHUB_ENV
 
