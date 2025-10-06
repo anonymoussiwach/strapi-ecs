@@ -39,11 +39,9 @@ jobs:
           echo "TASK_DEF_ARN=$(jq -r '.taskDefinition.taskDefinitionArn' taskdef.json)" >> $GITHUB_ENV
 
       # ✅ Trigger CodeDeploy for Blue/Green deployment
-      - name: Create CodeDeploy Deployment
+      - name: Create CodeDeploy deployment
         run: |
           aws deploy create-deployment \
-            --application-name strapi-codedeploy-app-mayank \
+            --application-name strapi-app-mayank \
             --deployment-group-name strapi-deploy-group-mayank \
-            --deployment-config-name CodeDeployDefault.ECSCanary10Percent5Minutes \
-            --github-location repository=${{ github.repository }},commitId=${{ github.sha }} \
-            --revision revisionType=AppSpecContent,appSpecContent="{\"content\":\"$(cat appspec.yaml | base64 | tr -d '\n')\"}"
+            --revision revisionType=AppSpecContent,appSpecContent="$(cat .github/workflows/appspec.yaml)"
