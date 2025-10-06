@@ -15,7 +15,7 @@ resource "aws_lb_target_group" "strapi_tg_blue" {
   name        = "strapi-tg-blue-mayank"
   port        = 1337
   protocol    = "HTTP"
-  vpc_id      = "vpc-01b35def73b166fdc"
+  vpc_id      = "vpc-0afe9dc99028a85ee"
   target_type = "ip"
 
   health_check {
@@ -34,7 +34,7 @@ resource "aws_lb_target_group" "strapi_tg_green" {
   name        = "strapi-tg-green-mayank"
   port        = 1337
   protocol    = "HTTP"
-  vpc_id      = "vpc-01b35def73b166fdc"
+  vpc_id      = "vpc-0afe9dc99028a85ee"
   target_type = "ip"
 
   health_check {
