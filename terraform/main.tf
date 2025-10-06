@@ -48,8 +48,7 @@ resource "aws_ecs_service" "strapi_service" {
   desired_count   = 2
   launch_type     = "FARGATE"
 
-  # Blue/Green Deployment wi
-  th CodeDeploy
+  # Blue/Green Deployment with CodeDeploy
   deployment_controller {
     type = "CODE_DEPLOY"
   }
