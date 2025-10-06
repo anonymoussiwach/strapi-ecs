@@ -46,7 +46,9 @@ resource "aws_ecs_service" "strapi_service" {
   cluster         = aws_ecs_cluster.strapi_cluster.id
   task_definition = aws_ecs_task_definition.strapi_task.arn
   desired_count   = 1
+  launch_type     = "FARGATE"
   platform_version = "LATEST"
+  
 
   # Blue/Green Deployment with CodeDeploy
   deployment_controller {
