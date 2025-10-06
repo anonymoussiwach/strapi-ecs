@@ -4,14 +4,14 @@
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "512",
   "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::145065858967:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
       "name": "strapi",
       "image": "145065858967.dkr.ecr.ap-south-1.amazonaws.com/adarshm/strapi7",
       "portMappings": [
         {
-          "containerPort": 1337,
-          "hostPort": 1337
+          "containerPort": 1337
         }
       ],
       "essential": true,
