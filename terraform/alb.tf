@@ -60,3 +60,24 @@ resource "aws_lb_listener" "strapi_listener" {
     target_group_arn = aws_lb_target_group.strapi_tg_blue.arn
   }
 }
+
+# Security Group for ALB
+resource "aws_security_group" "alb_sg" {
+  name        = "alb-sg-mayank"
+  description = "Allow HTTP inbound traffic"
+  vpc_id      = "vpc-01b35def73b166fdc"
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
