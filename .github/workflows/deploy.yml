@@ -45,7 +45,8 @@ jobs:
 
       - name: Create CodeDeploy deployment
         run: |
-          aws deploy create-deployment \
-            --application-name strapi-app-mayank \
-            --deployment-group-name strapi-deploy-group-mayank \
-            --revision "revisionType=AppSpecContent,appSpecContent={\"content\":\"$(cat appspec-final.json | jq -c .)\"}"
+         aws deploy create-deployment \
+          --application-name strapi-app \
+          --deployment-group-name strapi-deployment-group \
+          --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"{\"version\":0.0,\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"arn:aws:ecs:ap-south-1:145065858967:task-definition/strapi-task:55\",\"LoadBalancerInfo\":{\"ContainerName\":\"strapi\",\"ContainerPort\":1337}}}}]}"}}' \
+          --region ap-south-1
