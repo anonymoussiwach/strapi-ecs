@@ -5,7 +5,8 @@ resource "aws_lb" "strapi_alb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets = [
-    "subnet-065f226753ec5fd8f"
+    "subnet-065f226753ec5fd8f",
+    "subnet-05f48301e29cf5f85"
   ]
 }
 
