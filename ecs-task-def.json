@@ -8,7 +8,7 @@
   "containerDefinitions": [
     {
       "name": "strapi",
-      "image": "145065858967.dkr.ecr.ap-south-1.amazonaws.com/adarshm/strapi7",
+      "image": "145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek",
       "portMappings": [
         {
           "containerPort": 1337
