@@ -47,4 +47,4 @@ jobs:
           aws deploy create-deployment \
             --application-name strapi-app-mayank \
             --deployment-group-name strapi-deploy-group-mayank \
-            --revision revisionType=AppSpecContent,appSpecContent="$(cat appspec-final.yaml)"
+            --revision revisionType=AppSpecContent,appSpecContent="$(cat appspec-final.yml)"
