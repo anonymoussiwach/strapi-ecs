@@ -25,16 +25,6 @@ jobs:
       - name: Terraform Init
         working-directory: ./terraform
         run: terraform init
-         
-         # Import existing resources first
-      - name: Terraform Import CloudWatch Log Group
-        run: terraform import aws_cloudwatch_log_group.strapi_logs /ecs/strapi/mayank || true
-
-      - name: Terraform Import CodeDeploy App
-        run: terraform import aws_codedeploy_app.strapi_app strapi-app-mayank || true
-
-      - name: Terraform Import CodeDeploy Deployment Group
-        run: terraform import aws_codedeploy_deployment_group.strapi_deploy_group strapi-app-mayank/strapi-deploy-group-mayank || true
 
       - name: Terraform Apply
         working-directory: ./terraform
