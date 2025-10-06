@@ -43,9 +43,9 @@ jobs:
           sed "s|<TASK_DEF_ARN>|$TASK_DEF_ARN|g" .github/workflows/appspec.yml > appspec-final.yml
           python3 -c "import yaml, json; print(json.dumps(yaml.safe_load(open('appspec-final.yml'))))" > appspec-final.json
 
-      - name: Create CodeDeploy deployment
+     - name: Create CodeDeploy deployment
         run: |
           aws deploy create-deployment \
             --application-name strapi-app-mayank \
             --deployment-group-name strapi-deploy-group-mayank \
-            --revision revisionType=AppSpecContent,appSpecContent="$(cat appspec-final.json)"
+            --revision "revisionType=AppSpecContent,appSpecContent={\"content\":\"$(cat appspec-final.json | jq -c .)\"}"
