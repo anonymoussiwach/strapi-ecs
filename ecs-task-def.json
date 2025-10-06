@@ -1,0 +1,28 @@
+{
+  "family": "strapi-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "containerDefinitions": [
+    {
+      "name": "strapi",
+      "image": "145065858967.dkr.ecr.ap-south-1.amazonaws.com/adarshm/strapi7",
+      "portMappings": [
+        {
+          "containerPort": 1337,
+          "hostPort": 1337
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/strapi/mayank",
+          "awslogs-region": "ap-south-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
