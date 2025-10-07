@@ -5,9 +5,10 @@ resource "aws_lb" "strapi_alb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets = [
-    "subnet-065f226753ec5fd8f",
-    "subnet-06d7c618847e312a3"
-  ]
+  "subnet-0393e7c5b435bd5b6",
+  "subnet-03e1b3fe2ad999849",
+  "subnet-05e9035d969355719"
+]
 }
 
 # Blue Target Group
@@ -15,7 +16,7 @@ resource "aws_lb_target_group" "strapi_tg_blue" {
   name        = "strapi-tg-blue-mayank"
   port        = 1337
   protocol    = "HTTP"
-  vpc_id      = "vpc-0afe9dc99028a85ee"
+  vpc_id      = "vpc-01b35def73b166fdc"
   target_type = "ip"
 
   health_check {
@@ -34,7 +35,7 @@ resource "aws_lb_target_group" "strapi_tg_green" {
   name        = "strapi-tg-green-mayank"
   port        = 1337
   protocol    = "HTTP"
-  vpc_id      = "vpc-0afe9dc99028a85ee"
+  vpc_id      = "vpc-01b35def73b166fdc"
   target_type = "ip"
 
   health_check {
