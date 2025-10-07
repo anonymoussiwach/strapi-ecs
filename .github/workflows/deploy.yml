@@ -34,7 +34,7 @@ jobs:
       - name: Register ECS Task Definition
         id: taskdef
         run: |
-          sed "s|<IMAGE>|145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek|g" ecs-task-def.json > ecs-task-def-final.json
+          sed "s|<IMAGE>|145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek:latest|g" ecs-task-def.json > ecs-task-def-final.json
           aws ecs register-task-definition --cli-input-json file://ecs-task-def-final.json > taskdef.json
           echo "TASK_DEF_ARN=$(jq -r '.taskDefinition.taskDefinitionArn' taskdef.json)" >> $GITHUB_ENV
 
@@ -48,5 +48,5 @@ jobs:
          aws deploy create-deployment \
           --application-name strapi-app-mayank \
           --deployment-group-name strapi-deploy-group-mayank \
-          --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"{\"version\":0.0,\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"arn:aws:ecs:ap-south-1:145065858967:task-definition/strapi-task:55\",\"LoadBalancerInfo\":{\"ContainerName\":\"strapi\",\"ContainerPort\":1337}}}}]}"}}' \
+          --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"{\"version\":0.0,\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"strapi\",\"ContainerPort\":1337}}}}]}"}}' \
           --region ap-south-1

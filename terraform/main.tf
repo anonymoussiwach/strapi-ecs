@@ -19,7 +19,7 @@ resource "aws_ecs_task_definition" "strapi_task" {
 
   container_definitions = jsonencode([{
     name      = "strapi"
-    image     = "145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek"
+    image     = "145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek:latest"
     cpu       = 512
     memory    = 1024
     essential = true
@@ -45,7 +45,7 @@ resource "aws_ecs_service" "strapi_service" {
   name            = "strapi-service-mayank"
   cluster         = aws_ecs_cluster.strapi_cluster.id
   task_definition = aws_ecs_task_definition.strapi_task.arn
-  desired_count   = 2
+  desired_count   = 1
   launch_type     = "FARGATE"
 
   # Blue/Green Deployment with CodeDeploy
