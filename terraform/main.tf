@@ -19,7 +19,7 @@ resource "aws_ecs_task_definition" "strapi_task" {
 
   container_definitions = jsonencode([{
     name      = "strapi"
-    image     = var.image_uri
+    image     = var.docker_image
     cpu       = 512
     memory    = 1024
     essential = true
