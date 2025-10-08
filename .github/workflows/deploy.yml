@@ -44,32 +44,27 @@ jobs:
           sed "s|<TASK_DEF_ARN>|$TASK_DEF_ARN|g" .github/workflows/appspec.yml > appspec-final.yml
           python3 -c "import yaml, json; print(json.dumps(yaml.safe_load(open('appspec-final.yml'))))" > appspec-final.json
 
-      # ✅ Trigger CodeDeploy Deployment
+           # ✅ Trigger CodeDeploy Deployment
       - name: Create CodeDeploy Deployment
+        id: codedeploy
         run: |
-          aws deploy create-deployment \
-            --application-name strapi-app-mayank \
-            --deployment-group-name strapi-deploy-group-mayank \
-            --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"{\"version\":0.0,\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"strapi\",\"ContainerPort\":1337}}}}]}"}}' \
-            --region ap-south-1
-      
-      # ✅ Monitor CodeDeploy Deployment
-      - name: Wait for CodeDeploy Deployment to Succeed
-        run: |
-          echo "Waiting for deployment $TASK_DEF_ARN to complete..."
+          echo "Creating new CodeDeploy deployment for $TASK_DEF_ARN ..."
           DEPLOYMENT_ID=$(aws deploy create-deployment \
             --application-name strapi-app-mayank \
             --deployment-group-name strapi-deploy-group-mayank \
-            --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"{\"version\":0.0,\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"strapi\",\"ContainerPort\":1337}}}}]}"}}' \
+            --revision "{\"revisionType\":\"AppSpecContent\",\"appSpecContent\":{\"content\":\"{\\\"version\\\":0.0,\\\"Resources\\\":[{\\\"TargetService\\\":{\\\"Type\\\":\\\"AWS::ECS::Service\\\",\\\"Properties\\\":{\\\"TaskDefinition\\\":\\\"$TASK_DEF_ARN\\\",\\\"LoadBalancerInfo\\\":{\\\"ContainerName\\\":\\\"strapi\\\",\\\"ContainerPort\\\":1337}}}}]}\"}}" \
             --region ap-south-1 \
-            --query 'deploymentId' --output text)
-
+            --query "deploymentId" --output text)
+          
           echo "Deployment ID: $DEPLOYMENT_ID"
+          echo "DEPLOYMENT_ID=$DEPLOYMENT_ID" >> $GITHUB_ENV
 
-          # Wait until deployment succeeds or fails
+      # ✅ Monitor CodeDeploy Deployment
+      - name: Wait for CodeDeploy Deployment to Complete
+        run: |
+          source $GITHUB_ENV
+          echo "Waiting for deployment $DEPLOYMENT_ID to complete..."
           aws deploy wait deployment-successful \
             --deployment-id $DEPLOYMENT_ID \
             --region ap-south-1
-
-          echo "Deployment $DEPLOYMENT_ID completed successfully!"
-          
+          echo "✅ Deployment $DEPLOYMENT_ID completed successfully!"
