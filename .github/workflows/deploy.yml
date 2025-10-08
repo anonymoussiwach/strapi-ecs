@@ -72,3 +72,4 @@ jobs:
             --region ap-south-1
 
           echo "Deployment $DEPLOYMENT_ID completed successfully!"
+          
