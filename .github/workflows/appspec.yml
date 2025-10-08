@@ -3,7 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek:latest"
+        TaskDefinition: "<TASK_DEF_ARN>"
         LoadBalancerInfo:
           ContainerName: "strapi"
           ContainerPort: 1337

@@ -19,7 +19,7 @@ resource "aws_ecs_task_definition" "strapi_task" {
 
   container_definitions = jsonencode([{
     name      = "strapi"
-    image     = "145065858967.dkr.ecr.ap-south-1.amazonaws.com/my-strapi-project-vivek:latest"
+    image     = var.image_uri
     cpu       = 512
     memory    = 1024
     essential = true

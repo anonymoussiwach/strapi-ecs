@@ -55,7 +55,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_task_count_low" {
   }
 }
 
-# Optional Network Alarms
+# Network Alarms
 resource "aws_cloudwatch_metric_alarm" "ecs_network_in" {
   alarm_name          = "strapi-network-in-high"
   comparison_operator = "GreaterThanThreshold"
