@@ -52,3 +52,23 @@ jobs:
             --deployment-group-name strapi-deploy-group-mayank \
             --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"{\"version\":0.0,\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"strapi\",\"ContainerPort\":1337}}}}]}"}}' \
             --region ap-south-1
+      
+      # ✅ Monitor CodeDeploy Deployment
+      - name: Wait for CodeDeploy Deployment to Succeed
+        run: |
+          echo "Waiting for deployment $TASK_DEF_ARN to complete..."
+          DEPLOYMENT_ID=$(aws deploy create-deployment \
+            --application-name strapi-app-mayank \
+            --deployment-group-name strapi-deploy-group-mayank \
+            --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"{\"version\":0.0,\"Resources\":[{\"TargetService\":{\"Type\":\"AWS::ECS::Service\",\"Properties\":{\"TaskDefinition\":\"'$TASK_DEF_ARN'\",\"LoadBalancerInfo\":{\"ContainerName\":\"strapi\",\"ContainerPort\":1337}}}}]}"}}' \
+            --region ap-south-1 \
+            --query 'deploymentId' --output text)
+
+          echo "Deployment ID: $DEPLOYMENT_ID"
+
+          # Wait until deployment succeeds or fails
+          aws deploy wait deployment-successful \
+            --deployment-id $DEPLOYMENT_ID \
+            --region ap-south-1
+
+          echo "Deployment $DEPLOYMENT_ID completed successfully!"
